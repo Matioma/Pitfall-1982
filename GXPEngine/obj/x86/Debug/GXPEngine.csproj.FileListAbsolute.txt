@@ -1,0 +1,12 @@
+D:\Documents\StudyDocs\Block1.2\GXPEngineGame\GXPEngine_2019-2020\GXPEngine\bin\Debug\GXPEngine.exe
+D:\Documents\StudyDocs\Block1.2\GXPEngineGame\GXPEngine_2019-2020\GXPEngine\bin\Debug\GXPEngine.pdb
+D:\Documents\StudyDocs\Block1.2\GXPEngineGame\GXPEngine_2019-2020\GXPEngine\obj\x86\Debug\GXPEngine.csprojAssemblyReference.cache
+D:\Documents\StudyDocs\Block1.2\GXPEngineGame\GXPEngine_2019-2020\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CoreCompileInputs.cache
+D:\Documents\StudyDocs\Block1.2\GXPEngineGame\GXPEngine_2019-2020\GXPEngine\obj\x86\Debug\GXPEngine.exe
+D:\Documents\StudyDocs\Block1.2\GXPEngineGame\GXPEngine_2019-2020\GXPEngine\obj\x86\Debug\GXPEngine.pdb
+D:\Documents\StudyDocs\Block1.2\GamePrograming\Block1.2Pitfall\GXPEngine\bin\Debug\GXPEngine.exe
+D:\Documents\StudyDocs\Block1.2\GamePrograming\Block1.2Pitfall\GXPEngine\bin\Debug\GXPEngine.pdb
+D:\Documents\StudyDocs\Block1.2\GamePrograming\Block1.2Pitfall\GXPEngine\obj\x86\Debug\GXPEngine.csprojAssemblyReference.cache
+D:\Documents\StudyDocs\Block1.2\GamePrograming\Block1.2Pitfall\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CoreCompileInputs.cache
+D:\Documents\StudyDocs\Block1.2\GamePrograming\Block1.2Pitfall\GXPEngine\obj\x86\Debug\GXPEngine.exe
+D:\Documents\StudyDocs\Block1.2\GamePrograming\Block1.2Pitfall\GXPEngine\obj\x86\Debug\GXPEngine.pdb
