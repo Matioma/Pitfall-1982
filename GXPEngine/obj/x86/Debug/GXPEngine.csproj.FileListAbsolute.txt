@@ -10,3 +10,9 @@ D:\Documents\StudyDocs\Block1.2\GamePrograming\Block1.2Pitfall\GXPEngine\obj\x86
 D:\Documents\StudyDocs\Block1.2\GamePrograming\Block1.2Pitfall\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CoreCompileInputs.cache
 D:\Documents\StudyDocs\Block1.2\GamePrograming\Block1.2Pitfall\GXPEngine\obj\x86\Debug\GXPEngine.exe
 D:\Documents\StudyDocs\Block1.2\GamePrograming\Block1.2Pitfall\GXPEngine\obj\x86\Debug\GXPEngine.pdb
+D:\Documents\StudyDocs\Block1.2\GamePrograming\PitFall-1982\GXPEngine\bin\Debug\GXPEngine.exe
+D:\Documents\StudyDocs\Block1.2\GamePrograming\PitFall-1982\GXPEngine\bin\Debug\GXPEngine.pdb
+D:\Documents\StudyDocs\Block1.2\GamePrograming\PitFall-1982\GXPEngine\obj\x86\Debug\GXPEngine.csprojAssemblyReference.cache
+D:\Documents\StudyDocs\Block1.2\GamePrograming\PitFall-1982\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CoreCompileInputs.cache
+D:\Documents\StudyDocs\Block1.2\GamePrograming\PitFall-1982\GXPEngine\obj\x86\Debug\GXPEngine.exe
+D:\Documents\StudyDocs\Block1.2\GamePrograming\PitFall-1982\GXPEngine\obj\x86\Debug\GXPEngine.pdb

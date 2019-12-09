@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ground.cs" />
+    <Compile Include="Level.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="GXPEngine\Core\Collision.cs" />
     <Compile Include="Physics.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Units\Enemy.cs" />
   </ItemGroup>
   <ItemGroup />
 </Project>
