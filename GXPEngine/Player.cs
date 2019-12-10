@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 
 using GXPEngine;
+using GXPEngine.Units;
 
-public class Player : Sprite
+public class Player : Unit
 {
     private float _maxSpeed = 12;
     public float MaxSpeed
@@ -14,57 +15,130 @@ public class Player : Sprite
         get { return _maxSpeed; }
     }
 
-    private float _jumpSpeed = -15;
+    private float _jumpSpeed = -10;
     public float JumpSpeed
     {
         get { return _jumpSpeed; }
     }
 
-    private bool _onGround = false;
-    public bool IsOnGround
-    {
-        get { return _onGround; }
-        set { _onGround = value; }
-    }
 
+    protected UnitState currentState = UnitState.Idle;
+    private const float FrameTimeMs = 250;
     private float _speedX = 0;
     private float _speedY = 0;
 
-    public Player(float x, float y, string spritePath) : base(spritePath)
+    public Player(float x, float y) : base("barry.png", 7, 1)
     {
-        base.x = x;
-        base.y = y;
+        SetXY(x, y);
     }
 
-
-    void Update()
+    public override void Update()
     {
-        applyGravity();
-        handleInput();
-        Move(_speedX, _speedY);
+        HandleStates();
+        HandleMovement();
     }
 
-    private void handleInput()
-    {
-        if (!Input.GetKey(Key.RIGHT) && !Input.GetKey(Key.LEFT))
-        {
-            _speedX = 0;
-        }
-        if (Input.GetKey(Key.RIGHT))
-        {
-            _speedX = 5;
-        }
-        if (Input.GetKey(Key.LEFT))
-        {
-            _speedX = -5;
-        }
+    private void Jumping() {
         if (Input.GetKeyDown(Key.SPACE))
         {
-            IsOnGround = false;
-            _speedY = JumpSpeed;
+            if (IsOnGround)
+            {
+                _speedY = JumpSpeed;
+                currentState = UnitState.Jumping;
+            }
         }
     }
-    private void applyGravity()
+
+    private void ClimbLedder() {
+
+    }
+
+    /// <summary>
+    /// Left right movement functionality
+    /// </summary>
+    private void LeftRightMovement()
+    {
+        bool RightPressed = Input.GetKey(Key.RIGHT);
+        bool LeftPressed = Input.GetKey(Key.LEFT);
+
+        if (RightPressed)
+        {
+            Mirror(false, false);
+            _speedX = 5;
+            if(currentState!= UnitState.Jumping) { 
+                currentState = UnitState.Running;
+            }
+        }
+        if (LeftPressed)
+        {
+            Mirror(true, false);
+            _speedX = -5;
+            if (currentState != UnitState.Jumping)
+            {
+                currentState = UnitState.Running;
+            }
+        }
+        if (!RightPressed && !LeftPressed) {
+                currentState = UnitState.Idle;
+        }
+    }
+
+    /// <summary>
+    /// Handle States behaviour
+    /// </summary>
+    private void HandleStates() {
+        switch (currentState) {
+            case UnitState.Idle:
+                HandleAnimation(FrameTimeMs, 4,3);
+                Jumping();
+                LeftRightMovement();
+                if (!IsOnGround)
+                {
+                    currentState = UnitState.Falling;
+                }
+                break;
+
+            case UnitState.Running:
+                HandleAnimation(FrameTimeMs, 0, 3);
+                LeftRightMovement();
+                Jumping();
+                if (!IsOnGround)
+                {
+                    currentState = UnitState.Falling;
+                }
+                break;
+
+            case UnitState.Jumping:
+                HandleAnimation(FrameTimeMs, 3, 1);
+                LeftRightMovement();
+                ApplyGravity();
+                if (IsOnGround)
+                {
+                    currentState = UnitState.Idle;
+                }
+                break;
+            case UnitState.Falling:
+                HandleAnimation(FrameTimeMs, 3, 1);
+                ApplyGravity();
+                if (IsOnGround)
+                {
+                    currentState = UnitState.Idle;
+                }
+                break;
+
+            default:
+                Console.WriteLine("Undefined state");
+                break;
+        }
+    }
+
+
+    private void HandleMovement() {
+        Move(_speedX, _speedY);
+        _speedX *= 0.9f;
+    }
+
+    private void ApplyGravity()
     {
         if (IsOnGround)
         {
@@ -78,17 +152,5 @@ public class Player : Sprite
 
     void OnCollision(GameObject collider)
     {
-        Console.WriteLine(collider);
-        if (collider is Ground)
-        {
-            if (collider.HitTestPoint(x, y + height + 0.01f))
-            {
-                IsOnGround = true;
-            }
-            else
-            {
-                IsOnGround = false;
-            }
-        }
     }
 }

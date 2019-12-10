@@ -17,7 +17,8 @@ namespace GXPEngine
         }
 
         void LoadObjects() {
-            LevelSprites.Add(new Player(120, 200, "triangle.png"));
+            LevelSprites.Add(new Stairs(game.width / 2, game.height / 2, 100,300));
+            LevelSprites.Add(new Player( game.width/2,game.height/2));
             LevelSprites.Add(new Ground(0, Game.main.height - 10, "colors.png"));
             if (LevelSprites.Last() is Ground ground) {
                 ground.setSpriteExtent(Game.main.width, 50);
@@ -28,7 +29,8 @@ namespace GXPEngine
             {
                 ground2.setSpriteExtent(Game.main.width / 2, 50);
             }
-            LevelSprites.Add(new Enemy("barry.png", 7, 1, 7));
+            
+            LevelSprites.Add(new Enemy("barry.png", 7, 1));
         }
     }
 }

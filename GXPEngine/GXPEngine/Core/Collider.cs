@@ -37,7 +37,13 @@ namespace GXPEngine.Core
 		public virtual Collision GetCollisionInfo (Collider other)
 		{
 			return null;
-		}			
-	}
+		}
+
+
+        public virtual bool RayCast(Vector2 start, Vector2 end)
+        {
+            return false;
+        }
+    }
 }
 
