@@ -6,14 +6,7 @@ using GXPEngine.Core;
 
 namespace GXPEngine.Units
 {
-    public enum UnitState {
-        Idle,
-        Running,
-        Jumping,
-        Falling,
-        Climbing
-    }
-
+    
     
 
     public abstract class Unit : AnimationSprite
@@ -45,7 +38,6 @@ namespace GXPEngine.Units
             }
             return false;
         }
-
         protected void HandleAnimation(float frameTime, int startFrame, int numberOfFrames)
         {
             animationTime += Time.deltaTime;
