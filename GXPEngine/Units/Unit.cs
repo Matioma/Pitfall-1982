@@ -19,7 +19,6 @@ namespace GXPEngine.Units
         
         private float animationTime = 0.0f;
 
-
         public Unit(string path, int cols, int rows, int frames = -1, bool keepInChache = false, bool addCollider = true) :
                                                                         base(path, cols, rows, frames, keepInChache, addCollider)
         {

@@ -14,13 +14,13 @@ public enum PlayerState
 
 public class Player : Unit
 {
-    private float _maxSpeed = 12;
+    private float _maxSpeed = 250;
     public float MaxSpeed
     {
         get { return _maxSpeed; }
     }
 
-    private float _jumpSpeed = -10;
+    private float _jumpSpeed = -250;
     public float JumpSpeed
     {
         get { return _jumpSpeed; }
@@ -34,8 +34,9 @@ public class Player : Unit
 
     private float climbingSpeed = 1;
 
-    public Player(float x, float y) : base("barry.png", 7, 1)
+    public Player(float x, float y) : base("PlayerSpriteSheet.png", 6, 1)
     {
+        SetScaleXY(1f, 1f);
         SetXY(x, y);
     }
 
@@ -73,24 +74,15 @@ public class Player : Unit
                 break;
         }
     }
-
     private void Jump() {
-        if (Input.GetKeyDown(Key.SPACE))
-        {
-            if (IsOnGround)
-            {
-                _speedY = JumpSpeed;
-                currentState = PlayerState.Jumping;
-            }
-        }
+        _speedY = JumpSpeed;
+        currentState = PlayerState.Jumping;
     }
-
     private void MovePlayer()
     {
-        Move(_speedX, _speedY);
-        _speedX *= 0.9f;
+        Move(_speedX * Time.deltaTime/1000, _speedY * Time.deltaTime/1000);
+        _speedX *= 0.9f * Time.deltaTime/1000;
     }
-
     void JumpOfLedder()
     {
         if (Input.GetKey(Key.LEFT))
@@ -104,7 +96,6 @@ public class Player : Unit
             currentState = PlayerState.Jumping;
         }
     }
-
     private GameObject CanClimb()
     {
         foreach (var collidedObject in GetCollisions())
@@ -116,7 +107,6 @@ public class Player : Unit
         }
         return null;
     }
-
     private bool TryClimbLedder() {
         var stairsObject = CanClimb();
         if (stairsObject != null)
@@ -126,9 +116,7 @@ public class Player : Unit
         }
         return false;
     }
-
     private void StartClimbing(GameObject stairObject) {
-        Console.WriteLine("Start Climbing");
         currentState = PlayerState.Climbing;
         Sprite stairSprite = (Sprite)stairObject;
         if (stairSprite != null)
@@ -141,7 +129,6 @@ public class Player : Unit
         }
         
     }
-
     /// <summary>
     /// Left right movement functionality
     /// </summary>
@@ -153,7 +140,7 @@ public class Player : Unit
         if (RightPressed)
         {
             Mirror(false, false);
-            _speedX = 5;
+            _speedX = MaxSpeed;
             if(currentState!= PlayerState.Jumping) { 
                 currentState = PlayerState.Running;
             }
@@ -161,7 +148,7 @@ public class Player : Unit
         if (LeftPressed)
         {
             Mirror(true, false);
-            _speedX = -5;
+            _speedX = -MaxSpeed;
             if (currentState != PlayerState.Jumping)
             {
                 currentState = PlayerState.Running;
@@ -171,7 +158,6 @@ public class Player : Unit
                 currentState = PlayerState.Idle;
         }
     }
-
     private void HandleLedderClimbingMovement() {
         if (!Input.GetKey(Key.UP) && !Input.GetKey(Key.DOWN))
         {
@@ -199,21 +185,22 @@ public class Player : Unit
             _speedY += Physics.Gravity;
         }
     }
-
     void OnCollision(GameObject collider)
     {
     }
 
-   
-    
+
     /// <summary>
     /// States handling methods
     /// </summary>
 
     private void HandleIdleState() {
-        HandleAnimation(FrameTimeMs, 4, 3);
+        HandleAnimation(FrameTimeMs, 6, 1);
         HandleHorizontalInput();
-        Jump();
+        if (Input.GetKeyDown(Key.SPACE))
+        {
+            Jump();
+        }
         if (Input.GetKeyDown(Key.UP)) {
             TryClimbLedder();
             
@@ -221,23 +208,28 @@ public class Player : Unit
         if (!IsOnGround)
         {
             currentState = PlayerState.Falling;
+            _speedX = 0;
         }
     }
     private void HandleRunning()
     {
-        HandleAnimation(FrameTimeMs, 0, 3);
+        HandleAnimation(FrameTimeMs, 2, 4);
         HandleHorizontalInput();
-        Jump();
+        if (Input.GetKeyDown(Key.SPACE))
+        {
+            Jump();
+        }
         if (Input.GetKey(Key.UP)) {
             TryClimbLedder();
         }
         if (!IsOnGround)
         {
             currentState = PlayerState.Falling;
+            _speedX = 0;
         }
     }
     private void HandleJumping() {
-        HandleAnimation(FrameTimeMs, 3, 1);
+        HandleAnimation(FrameTimeMs, 0, 1);
         HandleHorizontalInput();
         ApplyGravity();
         if (IsOnGround)
@@ -246,7 +238,7 @@ public class Player : Unit
         }
     }
     private void HandleFalling() {
-        HandleAnimation(FrameTimeMs, 3, 1);
+        HandleAnimation(FrameTimeMs, 0, 1);
         ApplyGravity();
         if (IsOnGround)
         {
