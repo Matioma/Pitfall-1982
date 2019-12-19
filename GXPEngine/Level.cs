@@ -12,7 +12,7 @@ namespace GXPEngine
         public Level() {
             LoadObjects();
             foreach (var SpriteObject in LevelSprites) {
-                game.AddChild(SpriteObject);
+                AddChild(SpriteObject);
             }
         }
 
@@ -34,7 +34,7 @@ namespace GXPEngine
                 ground3.setSpriteExtent(Game.main.width / 2, 50);
             }
 
-            //LevelSprites.Add(new Enemy("barry.png", 7, 1));
+            LevelSprites.Add(new BoxEnemy(Game.main.width/2  + 150,Game.main.height/2));
         }
     }
 }

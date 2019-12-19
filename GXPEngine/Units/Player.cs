@@ -26,6 +26,25 @@ public class Player : Unit
         get { return _jumpSpeed; }
     }
 
+    private int _score = 2000;
+    public int Score {
+        get {
+            return _score;
+        }
+        set {
+            if (value >= 0)
+            {
+                _score = value;
+            }
+            else {
+                _score = 0;
+            }
+            scoreChangedHandler();
+        }
+    }
+
+    OnScoreChanged scoreChangedHandler;
+    public delegate void  OnScoreChanged();
 
     protected PlayerState currentState = PlayerState.Idle;
     private const float FrameTimeMs = 250;
@@ -38,13 +57,23 @@ public class Player : Unit
     {
         SetScaleXY(1f, 1f);
         SetXY(x, y);
+        scoreChangedHandler += UpdateUI;
+        scoreChangedHandler += OutputScore;
     }
 
     public override void Update()
     {
         HandleStates();
         MovePlayer();
-        Console.WriteLine(currentState);
+    }
+
+    void OnCollision(GameObject collider)
+    {
+        var Enemy = collider as BoxEnemy;
+        if (Enemy != null)
+        {
+            Console.WriteLine("Dead");
+        }
     }
 
     private void HandleStates()
@@ -185,15 +214,11 @@ public class Player : Unit
             _speedY += Physics.Gravity;
         }
     }
-    void OnCollision(GameObject collider)
-    {
-    }
-
+    
 
     /// <summary>
     /// States handling methods
     /// </summary>
-
     private void HandleIdleState() {
         HandleAnimation(FrameTimeMs, 6, 1);
         HandleHorizontalInput();
@@ -268,5 +293,15 @@ public class Player : Unit
         {
             currentState = PlayerState.Climbing;
         }
+    }
+
+
+    private void UpdateUI()
+    {
+        Console.WriteLine("Score Changed");
+    }
+    private void OutputScore()
+    {
+        Console.WriteLine(Score);
     }
 }
