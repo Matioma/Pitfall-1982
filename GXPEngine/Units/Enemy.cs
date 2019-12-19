@@ -10,12 +10,6 @@ namespace GXPEngine.Units
         public Enemy(string path, int cols, int rows): base(path,cols,rows) {
 
         }
-
-
-
-
-
-
         void Update()
         {
             this.NextFrame();

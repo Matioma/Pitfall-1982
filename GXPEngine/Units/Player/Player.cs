@@ -1,4 +1,5 @@
 ﻿using GXPEngine;
+using GXPEngine.Core;
 using GXPEngine.Units;
 using System;
 
@@ -9,7 +10,8 @@ public enum PlayerState
     Jumping,
     Falling,
     Climbing,
-    OnTopOfLedder
+    OnTopOfLedder,
+    OnRope
 }
 
 public class Player : Unit
@@ -44,7 +46,7 @@ public class Player : Unit
     }
 
     OnScoreChanged scoreChangedHandler;
-    public delegate void  OnScoreChanged();
+    public delegate void OnScoreChanged();
 
     protected PlayerState currentState = PlayerState.Idle;
     private const float FrameTimeMs = 250;
@@ -74,6 +76,13 @@ public class Player : Unit
         {
             Console.WriteLine("Dead");
         }
+        if (collider is OnRopeTigger ) {
+            Console.WriteLine(_score);
+            if (currentState != PlayerState.Falling) {
+                AttachToRope(collider);
+            }
+
+        }
     }
 
     private void HandleStates()
@@ -98,19 +107,31 @@ public class Player : Unit
             case PlayerState.OnTopOfLedder:
                 HandleOnTopOfLedder();
                 break;
+            case PlayerState.OnRope:
+                HandleOnRope();
+
+                break;
             default:
                 Console.WriteLine("Undefined state for player");
                 break;
         }
     }
+
+    
     private void Jump() {
         _speedY = JumpSpeed;
         currentState = PlayerState.Jumping;
     }
     private void MovePlayer()
     {
-        Move(_speedX * Time.deltaTime/1000, _speedY * Time.deltaTime/1000);
-        _speedX *= 0.9f * Time.deltaTime/1000;
+        Move(_speedX * Time.deltaTime / 1000, _speedY * Time.deltaTime / 1000);
+        _speedX *= 0.9f * Time.deltaTime / 1000;
+    }
+
+    private void AttachToRope( GameObject target) {
+        SetXY(0, width/2);
+        currentState = PlayerState.OnRope;
+        target.AddChild(this);
     }
     void JumpOfLedder()
     {
@@ -294,6 +315,19 @@ public class Player : Unit
             currentState = PlayerState.Climbing;
         }
     }
+    private void HandleOnRope()
+    {
+        _speedY = 0;
+        if (Input.GetKeyDown(Key.DOWN))
+        {
+            Vector2 worldPosition = this.TransformPoint(x, y);
+            SetXY(worldPosition.x, worldPosition.y);
+            parent.RemoveChild(this);
+            game.LateAddChild(this);
+            currentState = PlayerState.Falling;
+        }
+    }
+
 
 
     private void UpdateUI()

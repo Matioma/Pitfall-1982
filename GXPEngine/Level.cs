@@ -35,6 +35,7 @@ namespace GXPEngine
             }
 
             LevelSprites.Add(new BoxEnemy(Game.main.width/2  + 150,Game.main.height/2));
+            LevelSprites.Add(new Rope(120,0));
         }
     }
 }

@@ -6,10 +6,6 @@ using GXPEngine.Units;
 
 public class MyGame : Game
 {
-    Player player;
-    Ground ground;
-    Ground ground1;
-    Enemy enemy;
     Level levelData;
 
 
@@ -23,8 +19,8 @@ public class MyGame : Game
 
     void Update()
 	{
-
-	}
+        
+    }
 
 	static void Main()							// Main() is the first method that's called when the program is run
 	{
