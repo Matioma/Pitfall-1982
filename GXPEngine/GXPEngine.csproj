@@ -36,9 +36,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OnRopeTigger.cs" />
-    <Compile Include="Rope.cs" />
-    <Compile Include="Units\BoxEnemy.cs" />
+    <Compile Include="Objects\Rope\OnRopeTigger.cs" />
+    <Compile Include="Objects\Rope\Rope.cs" />
+    <Compile Include="Objects\Units\BoxEnemy.cs" />
     <Compile Include="Ground.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="MyGame.cs" />
@@ -76,10 +76,10 @@
     <Compile Include="GXPEngine\AddOns\EasyDraw.cs" />
     <Compile Include="GXPEngine\Core\Collision.cs" />
     <Compile Include="Physics.cs" />
-    <Compile Include="Units\Player\Player.cs" />
+    <Compile Include="Objects\Units\Player.cs" />
     <Compile Include="Stairs.cs" />
-    <Compile Include="Units\Enemy.cs" />
-    <Compile Include="Units\Unit.cs" />
+    <Compile Include="Objects\Units\Enemy.cs" />
+    <Compile Include="Objects\Units\Unit.cs" />
   </ItemGroup>
   <ItemGroup />
 </Project>

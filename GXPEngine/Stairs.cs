@@ -7,10 +7,11 @@ namespace GXPEngine
 {
     class Stairs:Sprite
     {
-        public  Stairs(float x, float y, int width, int height) : base("checkers.png") {
+        public  Stairs(float x, float y, int width, int height) : base("Stairs.png") {
             SetXY(x, y);
             this.width = width;
             this.height = height;
+            //SetScaleXY(3,3);
             //SetOrigin(width / 2, height / 2);
             
         }

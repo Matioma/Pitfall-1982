@@ -22,7 +22,9 @@ namespace GXPEngine
 
         void OnCollision(GameObject collider) {
             Player player = collider as Player;
-            player.Score -= scorePenaltyPerFrame;
+            if(player != null) {
+                player.Score -= scorePenaltyPerFrame;
+            }
         }
 
     }

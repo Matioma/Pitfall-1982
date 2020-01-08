@@ -3,6 +3,7 @@ using GXPEngine.Core;
 using GXPEngine.Units;
 using System;
 
+
 public enum PlayerState
 {
     Idle,
@@ -13,22 +14,21 @@ public enum PlayerState
     OnTopOfLedder,
     OnRope
 }
-
 public class Player : Unit
 {
     private float _maxSpeed = 250;
+    private float _jumpSpeed = -250;
+    private int _score = 2000;
     public float MaxSpeed
     {
         get { return _maxSpeed; }
+        private set { _maxSpeed = value; }
     }
-
-    private float _jumpSpeed = -250;
     public float JumpSpeed
     {
         get { return _jumpSpeed; }
+        private set { _jumpSpeed = value; }
     }
-
-    private int _score = 2000;
     public int Score {
         get {
             return _score;
@@ -48,12 +48,17 @@ public class Player : Unit
     OnScoreChanged scoreChangedHandler;
     public delegate void OnScoreChanged();
 
-    protected PlayerState currentState = PlayerState.Idle;
-    private const float FrameTimeMs = 250;
-    private float _speedX = 0;
-    private float _speedY = 0;
+    private PlayerState currentState = PlayerState.Idle;
+    public PlayerState CurrentState{
+        get { return currentState; }
+        set { currentState = value; }
+    }
 
-    private float climbingSpeed = 1;
+    const float FrameTimeMs = 250;
+    float _speedX = 0;
+    float _speedY = 0;
+
+    float climbingSpeed = 1;
 
     public Player(float x, float y) : base("PlayerSpriteSheet.png", 6, 1)
     {
@@ -63,12 +68,11 @@ public class Player : Unit
         scoreChangedHandler += OutputScore;
     }
 
-    public override void Update()
+    void Update()
     {
         HandleStates();
-        MovePlayer();
+        UpdatePlayerPosition();
     }
-
     void OnCollision(GameObject collider)
     {
         var Enemy = collider as BoxEnemy;
@@ -109,43 +113,27 @@ public class Player : Unit
                 break;
             case PlayerState.OnRope:
                 HandleOnRope();
-
                 break;
             default:
                 Console.WriteLine("Undefined state for player");
                 break;
         }
     }
-
-    
     private void Jump() {
         _speedY = JumpSpeed;
         currentState = PlayerState.Jumping;
     }
-    private void MovePlayer()
+    private void UpdatePlayerPosition()
     {
         Move(_speedX * Time.deltaTime / 1000, _speedY * Time.deltaTime / 1000);
         _speedX *= 0.9f * Time.deltaTime / 1000;
     }
-
     private void AttachToRope( GameObject target) {
         SetXY(0, width/2);
         currentState = PlayerState.OnRope;
         target.AddChild(this);
     }
-    void JumpOfLedder()
-    {
-        if (Input.GetKey(Key.LEFT))
-        {
-            _speedY = JumpSpeed;
-            currentState = PlayerState.Jumping;
-        }
-        else if (Input.GetKey(Key.RIGHT))
-        {
-            _speedY = JumpSpeed;
-            currentState = PlayerState.Jumping;
-        }
-    }
+ 
     private GameObject CanClimb()
     {
         foreach (var collidedObject in GetCollisions())
@@ -168,17 +156,12 @@ public class Player : Unit
     }
     private void StartClimbing(GameObject stairObject) {
         currentState = PlayerState.Climbing;
-        Sprite stairSprite = (Sprite)stairObject;
-        if (stairSprite != null)
-        {
-            x = stairSprite.x + stairSprite.width / 2;
-            _speedX = 0;
-        }
-        else {
-            Console.WriteLine("Failed to cast the stairs to ");
-        }
-        
+        var stairSprite = stairObject as Stairs;
+
+        _speedX = 0;
+        x = stairSprite.x + stairSprite.width / 2; // Center the player to the center of the stairs
     }
+
     /// <summary>
     /// Left right movement functionality
     /// </summary>
@@ -236,7 +219,6 @@ public class Player : Unit
         }
     }
     
-
     /// <summary>
     /// States handling methods
     /// </summary>
@@ -300,16 +282,18 @@ public class Player : Unit
             currentState = PlayerState.OnTopOfLedder;
             _speedY = 0;
         }
-        
         if (IsOnGround)
         {
             currentState = PlayerState.Idle;
-            Console.WriteLine("Back to iddle");
+           
         }
     }
     private void HandleOnTopOfLedder()
     {
-        JumpOfLedder();
+        if (Input.GetKey(Key.LEFT) || Input.GetKey(Key.RIGHT) )
+        {
+            Jump();
+        }
         if (Input.GetKey(Key.DOWN))
         {
             currentState = PlayerState.Climbing;
@@ -329,7 +313,9 @@ public class Player : Unit
     }
 
 
-
+    /// <summary>
+    /// UI Methods
+    /// </summary>
     private void UpdateUI()
     {
         Console.WriteLine("Score Changed");

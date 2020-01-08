@@ -12,7 +12,7 @@ namespace GXPEngine.Units
         }
         void Update()
         {
-            this.NextFrame();
+            this.animationSprite.NextFrame();
         }
     }
 
