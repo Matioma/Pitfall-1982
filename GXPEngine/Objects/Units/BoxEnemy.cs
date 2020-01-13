@@ -15,6 +15,9 @@ namespace GXPEngine
             this.x = x;
             this.y = y;
         }
+        public BoxEnemy() : base("barry.png", 6, 1)
+        {
+        }
         void Update() {
             
         }

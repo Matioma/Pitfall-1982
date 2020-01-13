@@ -36,7 +36,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GroundTile.cs" />
     <Compile Include="LevelManager.cs" />
     <Compile Include="Objects\Rope\OnRopeTigger.cs" />
     <Compile Include="Objects\Rope\Rope.cs" />

@@ -18,7 +18,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="Object Layer 1">
-  <object id="4" name="Player" x="622.424" y="258.182" width="39.3939" height="42.4242"/>
-  <object id="7" name="BoxEnemy" x="706.242" y="301.091" width="51.5152" height="16"/>
+  <object id="4" name="Player" x="594.424" y="268.182" width="39.3939" height="42.4242"/>
+  <object id="7" name="BoxEnemy" x="688.242" y="301.091" width="51.5152" height="16"/>
  </objectgroup>
 </map>

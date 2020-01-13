@@ -102,6 +102,14 @@ public class Player : Unit
         scoreChangedHandler += updateUI;
         scoreChangedHandler += outputScore;
     }
+    public Player() : base("PlayerSpriteSheet.png", 6, 1)
+    {
+        PlayerInstance = this;
+        //SetScaleXY(1f, 1f);
+        //SetXY(x, y);
+        scoreChangedHandler += updateUI;
+        scoreChangedHandler += outputScore;
+    }
 
     void Update()
     {

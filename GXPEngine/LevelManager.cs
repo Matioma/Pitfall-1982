@@ -34,8 +34,14 @@ public class LevelManager:GameObject
         AddLevel("Level2", new Level(LevelType.Level2));
         OpenLevel("Level1");
         */
-        TiledLevel tiled = new TiledLevel();
-        AddChild(tiled);
+        //TiledLevel tiled = new TiledLevel();
+        //AddChild(tiled);
+
+        LoadLevel("Level2.tmx");
+    }
+
+    public void LoadLevel(string fileName) {
+        AddChild(new TiledLevel(fileName));
     }
 
     public void DisplayNextLevel(bool right) {
@@ -94,4 +100,5 @@ public class LevelManager:GameObject
         levelsDictionary.Add(name, level);
         levelsList.Add(level);
     } 
+
 }
