@@ -30,9 +30,10 @@ namespace GXPEngine.Units
 
         public Unit(string path, int cols, int rows, int frames = -1, bool keepInChache = false, bool addCollider = true):base("playerHitBox.png")
         {
-            hitBox = new Sprite("playerHitBox.png", false, false);
-            hitBox.alpha = 0.0f;
+            /*hitBox = new Sprite("playerHitBox.png", false, false);
+            hitBox.alpha = 0.0f;*/
 
+            alpha = 0.0f;
 
 
             SetOrigin(width/2, height);

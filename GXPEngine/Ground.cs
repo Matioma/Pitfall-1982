@@ -7,34 +7,47 @@ namespace GXPEngine
 {
     public class Ground:GameObject
     {
-        readonly Sprite hitBox;
-        Sprite visuals;
+        readonly Sprite _hitBox;
+        AnimationSprite _visuals;
+        //AnimationSprite _animSprite;
 
 
         public Ground(int x, int y, string spritePath){
             this.x = x;
             this.y = y;
-            visuals = new Sprite(spritePath, false, false);
+            //_visuals = new Sprite(spritePath, false, false);
 
-            hitBox = new Sprite("playerHitBox.png");
-            hitBox.alpha = 0.2f;
-            AddChild(visuals);
-            AddChild(hitBox);
+            _hitBox = new Sprite("playerHitBox.png");
+            _hitBox.alpha = 0.0f;
+            AddChild(_visuals);
+            AddChild(_hitBox);
         }
 
-        public void setSpriteExtent(int width,int height)
+
+        public Ground()
         {
-            visuals.width = width;
-            visuals.height = height;
+            _visuals = new AnimationSprite("Tiles.png", 5, 1);
+            _visuals.SetFrame(0);
+
+            _hitBox = new Sprite("playerHitBox.png");
+            _hitBox.alpha = 0.0f;
+            AddChild(_visuals);
+            AddChild(_hitBox);
         }
-        public void setHitBoxSize(int width, int height) {
-            hitBox.width = width;
-            hitBox.height = height;
-        }
-        public void offsetTheHitBox(int x, int y)
+
+        public void SetSpriteExtent(int width,int height)
         {
-            hitBox.x= x;
-            hitBox.y = y;
+            _visuals.width = width;
+            _visuals.height = height;
+        }
+        public void SetHitBoxSize(int width, int height) {
+            _hitBox.width = width;
+            _hitBox.height = height;
+        }
+        public void OffsetTheHitBox(int x, int y)
+        {
+            _hitBox.x= x;
+            _hitBox.y = y;
         }
 
     }

@@ -33,13 +33,25 @@ public class Rope: GameObject
         //ropeObject.SetXY(120,120);
 
     }
+    public Rope()
+    {
+        this.AddChild(new OnRopeTigger(0, ropeLength));
+
+        _easyDraw = new EasyDraw(10, (int)ropeLength, false);
+
+        _easyDraw.StrokeWeight(3);
+        _easyDraw.Stroke(255);
+        this.AddChild(_easyDraw);
+        //ropeObject.SetXY(120,120);
+
+    }
     public void Update()
     {
-        RopeRotation();
+        ropeRotation();
         _easyDraw.Line(0,0,0, ropeLength);
     }
 
-    void RopeRotation() {
+    void ropeRotation() {
         time += Time.deltaTime;
         
         //Console.WriteLine();

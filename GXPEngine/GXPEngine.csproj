@@ -36,6 +36,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GroundTile.cs" />
+    <Compile Include="LevelManager.cs" />
     <Compile Include="Objects\Rope\OnRopeTigger.cs" />
     <Compile Include="Objects\Rope\Rope.cs" />
     <Compile Include="Objects\Units\BoxEnemy.cs" />
@@ -80,6 +82,7 @@
     <Compile Include="Stairs.cs" />
     <Compile Include="Objects\Units\Enemy.cs" />
     <Compile Include="Objects\Units\Unit.cs" />
+    <Compile Include="TiledLevel.cs" />
   </ItemGroup>
   <ItemGroup />
 </Project>
