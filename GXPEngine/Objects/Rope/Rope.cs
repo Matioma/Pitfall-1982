@@ -21,8 +21,6 @@ public class Rope: GameObject
         this.x = x;
         this.y = y;
 
-        //GameObject ropeObject = new OnRopeTigger (120,120);
-        //ropeObject.setOrif
         this.AddChild(new OnRopeTigger (0, ropeLength));
 
         _easyDraw = new EasyDraw(10, (int)ropeLength, false);

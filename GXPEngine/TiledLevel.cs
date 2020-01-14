@@ -97,7 +97,7 @@ namespace GXPEngine
                         Player player = new Player();
                         player.x = obj.X;
                         player.y = obj.Y;
-                        AddChild(player);
+                        LevelManager.Instance.PlayerInstace = player;
                         break;
                 }
             }

@@ -48,7 +48,7 @@ public class Player : Unit
 
 
     static Player _playerInstance =null;
-    public static Player PlayerInstance
+    /*public static Player PlayerInstance
     {
         get {
             if (_playerInstance != null)
@@ -75,7 +75,7 @@ public class Player : Unit
                 Console.WriteLine("Tried to create second Instace of the Player, destroying this instance");
             }
         }
-    }
+    }*/
 
 
 
@@ -96,7 +96,7 @@ public class Player : Unit
 
     public Player(float x, float y) : base("PlayerSpriteSheet.png", 6, 1)
     {
-        PlayerInstance = this;
+        //PlayerInstance = this;
         SetScaleXY(1f, 1f);
         SetXY(x, y);
         scoreChangedHandler += updateUI;
@@ -104,7 +104,7 @@ public class Player : Unit
     }
     public Player() : base("PlayerSpriteSheet.png", 6, 1)
     {
-        PlayerInstance = this;
+        //PlayerInstance = this;
         //SetScaleXY(1f, 1f);
         //SetXY(x, y);
         scoreChangedHandler += updateUI;
@@ -136,10 +136,10 @@ public class Player : Unit
     void handleLevelTransition() {
         if (this.x < 10) {
             LevelManager.Instance.DisplayNextLevel(false);
-            Console.WriteLine("Move LEft");
+            x = game.width - 12;
         } else if(this.x > game.width-10){
             LevelManager.Instance.DisplayNextLevel(true);
-            Console.WriteLine("Move right");
+            x = 12;
         }
     }
 

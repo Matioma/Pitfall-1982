@@ -10,6 +10,32 @@ public class LevelManager:GameObject
 {
     static LevelManager _instance;
 
+    Player _playerInstance;
+    public Player PlayerInstace {
+        get {
+            if (_playerInstance != null)
+                return _playerInstance;
+            else {
+                throw new Exception("Tried to access uninitilized player from Level manager");
+            }
+        }
+        set {
+            if (_playerInstance != null)
+            {
+                if (_playerInstance != value)
+                {
+                    value.LateDestroy();
+                    return;
+                }
+            }
+            else {
+                _playerInstance = value;
+                AddChild(_playerInstance);
+            }
+            
+        }
+    }
+
     public static LevelManager Instance {
         get {
             if (_instance != null)
@@ -23,82 +49,73 @@ public class LevelManager:GameObject
     }
 
     int activeLevelIndex = 0;
-    List<Level> levelsList = new List<Level>();
-
-    Dictionary<string, Level> levelsDictionary = new Dictionary<string, Level>();
+    List<TiledLevel> levelsList = new List<TiledLevel>();
+    Dictionary<string, TiledLevel> levelsDictionary = new Dictionary<string, TiledLevel>();
 
     public LevelManager() {
-        /*_instance = this;
-
-        AddLevel("Level1",new Level(LevelType.Level1));
-        AddLevel("Level2", new Level(LevelType.Level2));
-        OpenLevel("Level1");
-        */
-        //TiledLevel tiled = new TiledLevel();
-        //AddChild(tiled);
-
+        _instance = this;
+        LoadLevel("Level1.tmx");
         LoadLevel("Level2.tmx");
+
+        OpenLevel("Level1.tmx");
     }
 
     public void LoadLevel(string fileName) {
-        AddChild(new TiledLevel(fileName));
+        TiledLevel level = new TiledLevel(fileName);
+        levelsList.Add(level);
+        levelsDictionary.Add(fileName, level);
     }
 
     public void DisplayNextLevel(bool right) {
-        Console.WriteLine(activeLevelIndex);
         if (right)
         {
             activeLevelIndex++;
-            if (activeLevelIndex >= levelsDictionary.Count)
+            if (activeLevelIndex >= levelsList.Count)
             {
                 activeLevelIndex = 0;
                 
-            }
-            foreach (var levelObject in levelsList[activeLevelIndex].GetChildren()) {
-                if (levelObject is Player) {
-                    var player = levelObject as Player;
-                    //player.x =
-
-                }
             }
         }
         else {
             activeLevelIndex--;
             if (activeLevelIndex < 0) {
-                activeLevelIndex = levelsDictionary.Count - 1;
+                activeLevelIndex = levelsList.Count - 1;
             }
         }
-        //OpenLevel(activeLevelIndex);
+        OpenLevel(activeLevelIndex);
     }
+    /// <summary>
+    /// Open level by the list index
+    /// </summary>
+    /// <param name="index"></param>
     public void OpenLevel(int index) {
-        //remove previous level
         foreach (var gameobject in GetChildren()) {
-            gameobject.LateRemove();
+            if(gameobject is TiledLevel)
+                gameobject.LateRemove();
         }
-        LateAddChild(levelsList[index]);
-        GetChildren()[0].AddChild(Player.PlayerInstance);
+        LateAddChildAt(levelsList[index], 0);
     }
+    /// <summary>
+    /// Open level by the file name
+    /// </summary>
+    /// <param name="levelName"></param>
     public void OpenLevel(string levelName) {
 
         //remove previous level
         foreach (var gameobject in GetChildren())
         {
-            //LateRemoveChild(gameobject);
-            gameobject.LateRemove();
+            if (gameobject is TiledLevel)
+                gameobject.LateRemove();
         }
             
         //Add as child to level manager the target level
         if (levelsDictionary[levelName] != null)
         {
-            LateAddChild(levelsDictionary[levelName]);
+            LateAddChildAt(levelsDictionary[levelName], 0);
         }
         else {
             Console.WriteLine("Could not find the level with the specified name when calling - LevelManager- OpenLevel(String)");
         }
     }
-    private void AddLevel( string name, Level level) {
-        levelsDictionary.Add(name, level);
-        levelsList.Add(level);
-    } 
 
 }
