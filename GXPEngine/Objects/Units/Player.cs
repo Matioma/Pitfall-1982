@@ -34,11 +34,18 @@ public class Player : Unit
     }
 
 
-    float _time = 1200;
+    float _time = 1200* 1000;
     float Timer {
         get { return _time; }
         set {
-            _time = value;
+            if(value > 0)
+            {
+                _time = value;
+            }
+            else
+            {
+                _time = 0;
+            }
             onUIUpdateHandler();
         }
     }
@@ -82,13 +89,13 @@ public class Player : Unit
     {
         SetScaleXY(1f, 1f);
         SetXY(x, y);
-        onUIUpdateHandler += updateUI;
-        onUIUpdateHandler += outputScore;
+        //onUIUpdateHandler += updateUI;
+        onUIUpdateHandler += UpdateUI;
     }
     public Player() : base("PlayerSpriteSheet.png", 6, 1)
     {
-        onUIUpdateHandler += updateUI;
-        onUIUpdateHandler += outputScore;
+        //onUIUpdateHandler += updateUI;
+        onUIUpdateHandler += UpdateUI;
     }
 
     void Update()
@@ -356,14 +363,11 @@ public class Player : Unit
     /// <summary>
     /// UI Methods
     /// </summary>
+    
     private void UpdateUI()
     {
-        UICanvas.Instance.
-
-        Console.WriteLine("Score Changed");
-    }
-    private void outputScore()
-    {
-        Console.WriteLine(Score);
+        UICanvas.Instance.DrawScore(this.Score);
+        UICanvas.Instance.DrawTimer(this.Timer);
+        //Console.WriteLine(Score);
     }
 }

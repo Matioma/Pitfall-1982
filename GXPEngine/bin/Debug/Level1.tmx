@@ -19,6 +19,6 @@
  </layer>
  <objectgroup id="2" name="Object Layer 1">
   <object id="4" name="Player" x="142.424" y="118.182" width="39.3939" height="42.4242"/>
-  <object id="7" name="BoxEnemy" x="392.242" y="311.758" width="51.5152" height="16"/>
+  <object id="7" name="BoxEnemy" x="644.242" y="303.758" width="51.5152" height="16"/>
  </objectgroup>
 </map>

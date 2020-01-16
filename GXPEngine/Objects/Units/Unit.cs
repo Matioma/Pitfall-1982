@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GXPEngine.Core;
+using GXPEngine.Objects.Units;
 
 namespace GXPEngine.Units
 {
@@ -18,7 +19,7 @@ namespace GXPEngine.Units
             get {
                 foreach (GameObject collidedObject in GetCollisions())
                 {
-                    if (collidedObject.parent is Ground)
+                    if (collidedObject.parent is Ground || collidedObject is Alligator)
                     {
                         return true;
                     }

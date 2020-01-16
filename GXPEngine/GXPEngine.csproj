@@ -39,6 +39,8 @@
     <Compile Include="LevelManager.cs" />
     <Compile Include="Objects\Rope\OnRopeTigger.cs" />
     <Compile Include="Objects\Rope\Rope.cs" />
+    <Compile Include="Objects\Units\AliggatorPuddle.cs" />
+    <Compile Include="Objects\Units\Alligator.cs" />
     <Compile Include="Objects\Units\BoxEnemy.cs" />
     <Compile Include="Ground.cs" />
     <Compile Include="MyGame.cs" />

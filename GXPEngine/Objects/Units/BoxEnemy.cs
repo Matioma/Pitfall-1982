@@ -10,16 +10,27 @@ namespace GXPEngine
     {
         int scorePenaltyPerFrame = 14;
         bool movingLeft = false;
+        float speed = 300;
 
         public BoxEnemy(float x, float y) : base("barry.png", 6, 1) {
             this.x = x;
             this.y = y;
+            SetScaleXY(0.5f, 0.5f);
         }
         public BoxEnemy() : base("barry.png", 6, 1)
         {
+            SetScaleXY(0.5f, 0.5f);
         }
         void Update() {
-            
+            Move();
+        }
+
+        void Move() {
+            Console.WriteLine(x);
+            x -= speed * Time.deltaTime / 1000;
+            if (x < 10) {
+                x = game.width - 10;
+            }
         }
 
 

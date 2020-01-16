@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GXPEngine.Objects.Units;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,10 @@ namespace GXPEngine
 
         public TiledLevel(string fileName) {
             Map levelData = MapParser.ReadMap(fileName);
+            Sprite background = new Sprite("background.png", false);
+            background.width = game.width;
+            background.height = game.height;
+            AddChildAt(background,0);
             SpawnTiles(levelData);
             SpawnObjects(levelData);
         }
@@ -72,6 +77,11 @@ namespace GXPEngine
                         player.x = obj.X;
                         player.y = obj.Y;
                         LevelManager.Instance.PlayerInstace = player;
+                        break;
+                    case "AlligatorPuddle":
+                        Console.WriteLine("SPAWNED");
+                        AliggatorPuddle puddle = new AliggatorPuddle(64*3, obj.X, obj.Y);
+                        AddChild(puddle);
                         break;
                 }
             }
