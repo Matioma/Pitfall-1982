@@ -41,7 +41,6 @@
     <Compile Include="Objects\Rope\Rope.cs" />
     <Compile Include="Objects\Units\BoxEnemy.cs" />
     <Compile Include="Ground.cs" />
-    <Compile Include="Level.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
@@ -82,6 +81,7 @@
     <Compile Include="Objects\Units\Enemy.cs" />
     <Compile Include="Objects\Units\Unit.cs" />
     <Compile Include="TiledLevel.cs" />
+    <Compile Include="UICanvas.cs" />
   </ItemGroup>
   <ItemGroup />
 </Project>

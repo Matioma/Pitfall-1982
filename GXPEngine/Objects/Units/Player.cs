@@ -16,10 +16,12 @@ public enum PlayerState
 }
 public class Player : Unit
 {
+    
 
-    private float _maxSpeed = 250;
-    private float _jumpSpeed = -250;
-    private int _score = 2000;
+
+
+    float _maxSpeed = 250;
+    float _jumpSpeed = -250;
     public float MaxSpeed
     {
         get { return _maxSpeed; }
@@ -30,6 +32,20 @@ public class Player : Unit
         get { return _jumpSpeed; }
         private set { _jumpSpeed = value; }
     }
+
+
+    float _time = 1200;
+    float Timer {
+        get { return _time; }
+        set {
+            _time = value;
+            onUIUpdateHandler();
+        }
+    }
+
+
+    int _score = 2000;
+    
     public int Score {
         get {
             return _score;
@@ -42,47 +58,15 @@ public class Player : Unit
             else {
                 _score = 0;
             }
-            scoreChangedHandler();
+            onUIUpdateHandler();
         }
     }
 
 
-    static Player _playerInstance =null;
-    /*public static Player PlayerInstance
-    {
-        get {
-            if (_playerInstance != null)
-            {
-                return _playerInstance;
-            }
-            else {
-                Console.WriteLine("The player instance does not exist yet");
-                return null;
-            }
-        }
-        private set
-        {
-            if (_playerInstance == null)
-            {
-                _playerInstance = value;
-                //LevelManager.Instance.setPlayerRef(PlayerInstance);
-            }
-            else
-            {
-                if (value != _playerInstance) {
-                    //value.LateDestroy();
-                }
-                Console.WriteLine("Tried to create second Instace of the Player, destroying this instance");
-            }
-        }
-    }*/
+    OnUIUpdate onUIUpdateHandler;
+    delegate void OnUIUpdate();
 
-
-
-    OnScoreChanged scoreChangedHandler;
-    public delegate void OnScoreChanged();
-
-    private PlayerState currentState = PlayerState.Idle;
+    PlayerState currentState = PlayerState.Idle;
     public PlayerState CurrentState{
         get { return currentState; }
         set { currentState = value; }
@@ -96,19 +80,15 @@ public class Player : Unit
 
     public Player(float x, float y) : base("PlayerSpriteSheet.png", 6, 1)
     {
-        //PlayerInstance = this;
         SetScaleXY(1f, 1f);
         SetXY(x, y);
-        scoreChangedHandler += updateUI;
-        scoreChangedHandler += outputScore;
+        onUIUpdateHandler += updateUI;
+        onUIUpdateHandler += outputScore;
     }
     public Player() : base("PlayerSpriteSheet.png", 6, 1)
     {
-        //PlayerInstance = this;
-        //SetScaleXY(1f, 1f);
-        //SetXY(x, y);
-        scoreChangedHandler += updateUI;
-        scoreChangedHandler += outputScore;
+        onUIUpdateHandler += updateUI;
+        onUIUpdateHandler += outputScore;
     }
 
     void Update()
@@ -116,6 +96,12 @@ public class Player : Unit
         handleStates();
         updatePlayerPosition();
         handleLevelTransition();
+
+        timerCountDown();
+    }
+
+    void timerCountDown() {
+        Timer -= Time.deltaTime;
     }
     void OnCollision(GameObject collider)
     {
@@ -370,8 +356,10 @@ public class Player : Unit
     /// <summary>
     /// UI Methods
     /// </summary>
-    private void updateUI()
+    private void UpdateUI()
     {
+        UICanvas.Instance.
+
         Console.WriteLine("Score Changed");
     }
     private void outputScore()

@@ -6,19 +6,12 @@ using GXPEngine.Units;
 
 public class MyGame : Game
 {
-    //readonly Level  levelData;
     LevelManager levelManager;
 
     public MyGame() : base(800, 600, false)     // Create a window that's 800x600 and NOT fullscreen
     {
         levelManager = new LevelManager();
-        //levelData = new Level(LevelType.Level1);
-        //AddChild(levelData);
-
         AddChild(levelManager);
-
-        //GameObject gameObject = new GroundTile();
-        //gameObject.SetXY(game.width / 2, game.height / 2);
     }
 
     void Update()
