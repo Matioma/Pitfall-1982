@@ -7,7 +7,7 @@ namespace GXPEngine
 {
     public class Ground:GameObject
     {
-        readonly Sprite _hitBox;
+        public Sprite _hitBox;
         AnimationSprite _visuals;
         //AnimationSprite _animSprite;
 
@@ -15,9 +15,9 @@ namespace GXPEngine
         public Ground(int x, int y, string spritePath){
             this.x = x;
             this.y = y;
-            //_visuals = new Sprite(spritePath, false, false);
 
-            _hitBox = new Sprite("playerHitBox.png");
+            _hitBox = new HitBox();
+           // _hitBox.u
             _hitBox.alpha = 0.0f;
             AddChild(_visuals);
             AddChild(_hitBox);
@@ -29,8 +29,7 @@ namespace GXPEngine
             _visuals = new AnimationSprite("Tiles.png", 5, 1);
             _visuals.SetFrame(0);
 
-            _hitBox = new Sprite("playerHitBox.png");
-            _hitBox.alpha = 0.0f;
+            _hitBox = new HitBox();
             AddChild(_visuals);
             AddChild(_hitBox);
         }

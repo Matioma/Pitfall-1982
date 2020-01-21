@@ -26,7 +26,7 @@ namespace GXPEngine
         }
 
         void Move() {
-            Console.WriteLine(x);
+            
             x -= speed * Time.deltaTime / 1000;
             if (x < 10) {
                 x = game.width - 10;

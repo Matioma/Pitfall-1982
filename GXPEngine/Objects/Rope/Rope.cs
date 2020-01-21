@@ -20,7 +20,7 @@ public class Rope: GameObject
 
         this.x = x;
         this.y = y;
-
+ 
         this.AddChild(new OnRopeTigger (0, ropeLength));
 
         _easyDraw = new EasyDraw(10, (int)ropeLength, false);

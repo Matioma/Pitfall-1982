@@ -1,5 +1,6 @@
 ﻿using GXPEngine;
 using GXPEngine.Core;
+using GXPEngine.Objects.Units;
 using GXPEngine.Units;
 using System;
 
@@ -16,12 +17,13 @@ public enum PlayerState
 }
 public class Player : Unit
 {
-    
+
+    int LifesLeft = 3;
+    Vector2 spawnPosition;
 
 
-
-    float _maxSpeed = 250;
-    float _jumpSpeed = -250;
+    float _maxSpeed = 5;
+    float _jumpSpeed = -12;
     public float MaxSpeed
     {
         get { return _maxSpeed; }
@@ -73,7 +75,7 @@ public class Player : Unit
     OnUIUpdate onUIUpdateHandler;
     delegate void OnUIUpdate();
 
-    PlayerState currentState = PlayerState.Idle;
+    PlayerState currentState = PlayerState.Falling;
     public PlayerState CurrentState{
         get { return currentState; }
         set { currentState = value; }
@@ -89,17 +91,18 @@ public class Player : Unit
     {
         SetScaleXY(1f, 1f);
         SetXY(x, y);
-        //onUIUpdateHandler += updateUI;
+        spawnPosition.x = x;
+        spawnPosition.y = y;
         onUIUpdateHandler += UpdateUI;
     }
     public Player() : base("PlayerSpriteSheet.png", 6, 1)
     {
-        //onUIUpdateHandler += updateUI;
         onUIUpdateHandler += UpdateUI;
     }
 
     void Update()
     {
+        Console.WriteLine(x);
         handleStates();
         updatePlayerPosition();
         handleLevelTransition();
@@ -115,24 +118,23 @@ public class Player : Unit
         var Enemy = collider as BoxEnemy;
         if (Enemy != null)
         {
-            Console.WriteLine("Dead");
         }
         if (collider is OnRopeTigger ) {
-            Console.WriteLine(_score);
             if (currentState != PlayerState.Falling) {
                 attachToRope(collider);
             }
-
         }
     }
 
     void handleLevelTransition() {
-        if (this.x < 10) {
-            LevelManager.Instance.DisplayNextLevel(false);
-            x = game.width - 12;
-        } else if(this.x > game.width-10){
-            LevelManager.Instance.DisplayNextLevel(true);
-            x = 12;
+        if(CurrentState != PlayerState.OnRope) { 
+            if (x < 10) {
+                LevelManager.Instance.DisplayNextLevel(right:false);
+                x = game.width - 12;
+            } else if(x > game.width-10){
+                LevelManager.Instance.DisplayNextLevel(right:true);
+                x = 12;
+            }
         }
     }
 
@@ -172,15 +174,20 @@ public class Player : Unit
     }
     private void updatePlayerPosition()
     {
-        Move(_speedX * Time.deltaTime / 1000, _speedY * Time.deltaTime / 1000);
+        Move(_speedX , 0);
         _speedX *= 0.9f * Time.deltaTime / 1000;
+
+        Move(0, _speedY);
+        //MoveUntilCollision(0, _speedY);
+
+
+
     }
     private void attachToRope( GameObject target) {
         SetXY(0, width/2);
         currentState = PlayerState.OnRope;
         target.AddChild(this);
     }
- 
     private GameObject canClimb()
     {
         foreach (var collidedObject in GetCollisions())
@@ -235,7 +242,7 @@ public class Player : Unit
             }
         }
         if (!RightPressed && !LeftPressed) {
-                currentState = PlayerState.Idle;
+            currentState = PlayerState.Idle;
         }
     }
     private void handleLedderClimbingMovement() {
@@ -256,14 +263,14 @@ public class Player : Unit
     }
     private void applyGravity()
     {
-        if (IsOnGround)
-        {
+        if (IsOnGround){
             _speedY = 0;
         }
-        else
-        {
+        else {
             _speedY += Physics.Gravity;
         }
+        
+
     }
     
     /// <summary>
@@ -283,7 +290,7 @@ public class Player : Unit
         if (!IsOnGround)
         {
             currentState = PlayerState.Falling;
-            _speedX = 0;
+            //_speedX = 0;
         }
     }
     private void handleRunning()
@@ -363,11 +370,16 @@ public class Player : Unit
     /// <summary>
     /// UI Methods
     /// </summary>
-    
+
+    public void Kill() {
+        SetXY(spawnPosition.x, spawnPosition.y);
+        LifesLeft--;
+        MyGame.sounds["Death"].Play();
+    }
+
     private void UpdateUI()
     {
         UICanvas.Instance.DrawScore(this.Score);
         UICanvas.Instance.DrawTimer(this.Timer);
-        //Console.WriteLine(Score);
     }
 }

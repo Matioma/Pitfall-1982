@@ -36,6 +36,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeathTrigger.cs" />
+    <Compile Include="HitBox.cs" />
     <Compile Include="LevelManager.cs" />
     <Compile Include="Objects\Rope\OnRopeTigger.cs" />
     <Compile Include="Objects\Rope\Rope.cs" />

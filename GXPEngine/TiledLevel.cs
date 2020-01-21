@@ -18,7 +18,7 @@ namespace GXPEngine
 
         public TiledLevel(string fileName) {
             Map levelData = MapParser.ReadMap(fileName);
-            Sprite background = new Sprite("background.png", false);
+            Sprite background = new Sprite("background.png", false,false);
             background.width = game.width;
             background.height = game.height;
             AddChildAt(background,0);
@@ -73,14 +73,14 @@ namespace GXPEngine
                         AddChild(boxEnemy);
                         break;
                     case "Player":
-                        Player player = new Player();
-                        player.x = obj.X;
-                        player.y = obj.Y;
+                        Player player = new Player(obj.X,obj.Y);
+                        //player.x = ;
+                        //player.y = obj.Y;
                         LevelManager.Instance.PlayerInstace = player;
                         break;
                     case "AlligatorPuddle":
                         Console.WriteLine("SPAWNED");
-                        AliggatorPuddle puddle = new AliggatorPuddle(64*3, obj.X, obj.Y);
+                        AliggatorPuddle puddle = new AliggatorPuddle(tileSize * 4, obj.X, obj.Y);
                         AddChild(puddle);
                         break;
                 }
@@ -96,7 +96,10 @@ namespace GXPEngine
                 case 0:
                     break;
                 case 1:
-                    gameObject = new Ground();
+                    var ground = new Ground();
+                    ground.SetHitBoxSize(tileSize, tileSize);
+                    gameObject = ground;
+                    
                     break;
                 case 2:
                     gameObject = new Stairs();
