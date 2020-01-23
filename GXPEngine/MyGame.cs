@@ -7,6 +7,7 @@ using GXPEngine.Units;
 
 public class MyGame : Game
 {
+
     LevelManager levelManager;
     public static Dictionary<string, Sound> sounds = new Dictionary<string, Sound>();
 
@@ -28,7 +29,6 @@ public class MyGame : Game
     static void Main()                          // Main() is the first method that's called when the program is run
     {
         new MyGame().Start();                   // Create a "MyGame" and start it
-
     }
 
     void LoadSounds() {

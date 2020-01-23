@@ -18,6 +18,7 @@ namespace GXPEngine
             get{if (_instance == null ){
                     _instance = new UICanvas();
                     Game.main.AddChild(_instance);
+                    
                 }
                 return _instance;
             }

@@ -17,7 +17,7 @@ public enum PlayerState
 }
 public class Player : Unit
 {
-
+    const int MAX_HEALTH = 3;
     int LifesLeft = 3;
     Vector2 spawnPosition;
 
@@ -36,6 +36,7 @@ public class Player : Unit
     }
 
 
+    const float START_TIME = 1200 * 1000;
     float _time = 1200* 1000;
     float Timer {
         get { return _time; }
@@ -53,6 +54,7 @@ public class Player : Unit
     }
 
 
+    const int START_SCORE = 2000;
     int _score = 2000;
     
     public int Score {
@@ -91,9 +93,8 @@ public class Player : Unit
     {
         SetScaleXY(1f, 1f);
         SetXY(x, y);
-        spawnPosition.x = x;
-        spawnPosition.y = y;
-        onUIUpdateHandler += UpdateUI;
+        setupPlayer(x, y);
+         onUIUpdateHandler += UpdateUI;
     }
     public Player() : base("PlayerSpriteSheet.png", 6, 1)
     {
@@ -102,12 +103,28 @@ public class Player : Unit
 
     void Update()
     {
-        Console.WriteLine(x);
         handleStates();
         updatePlayerPosition();
         handleLevelTransition();
-
         timerCountDown();
+    }
+
+    void setupPlayer( float x, float y) {
+        spawnPosition.x = x;
+        spawnPosition.y = y;
+        LifesLeft = MAX_HEALTH;
+        _time = START_TIME;
+        _score = START_SCORE;
+
+    }
+
+    void resetPlayer() {
+        SetXY(spawnPosition.x, spawnPosition.y);
+        LifesLeft = MAX_HEALTH;
+        _time = START_TIME;
+        _score = START_SCORE;
+        LevelManager.Instance.OpenLevel("Level1.tmx");
+        LevelManager.Instance.ActiveLevelIndex = 0;
     }
 
     void timerCountDown() {
@@ -177,6 +194,7 @@ public class Player : Unit
         Move(_speedX , 0);
         _speedX *= 0.9f * Time.deltaTime / 1000;
 
+        //if(_spe)
         Move(0, _speedY);
         //MoveUntilCollision(0, _speedY);
 
@@ -264,7 +282,8 @@ public class Player : Unit
     private void applyGravity()
     {
         if (IsOnGround){
-            _speedY = 0;
+            if(_speedY >0)
+                _speedY = 0;
         }
         else {
             _speedY += Physics.Gravity;
@@ -338,7 +357,8 @@ public class Player : Unit
         }
         if (IsOnGround)
         {
-            currentState = PlayerState.Idle;
+            if(Input.GetKeyDown(Key.DOWN))
+                currentState = PlayerState.Idle;
            
         }
     }
@@ -366,16 +386,26 @@ public class Player : Unit
         }
     }
 
+    public void Kill()
+    {
+        LifesLeft--;
+
+        if (LifesLeft <= 0)
+        {
+            resetPlayer();
+            return;
+        }
+
+        SetXY(spawnPosition.x, spawnPosition.y);
+        MyGame.sounds["Death"].Play();
+    }
+
 
     /// <summary>
     /// UI Methods
     /// </summary>
 
-    public void Kill() {
-        SetXY(spawnPosition.x, spawnPosition.y);
-        LifesLeft--;
-        MyGame.sounds["Death"].Play();
-    }
+
 
     private void UpdateUI()
     {

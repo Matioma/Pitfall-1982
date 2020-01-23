@@ -49,6 +49,9 @@ public class LevelManager:GameObject
     }
 
     int activeLevelIndex = 0;
+    public int ActiveLevelIndex {
+        set => activeLevelIndex = value;
+    }
     List<TiledLevel> levelsList = new List<TiledLevel>();
     Dictionary<string, TiledLevel> levelsDictionary = new Dictionary<string, TiledLevel>();
 
@@ -117,5 +120,8 @@ public class LevelManager:GameObject
             Console.WriteLine("Could not find the level with the specified name when calling - LevelManager- OpenLevel(String)");
         }
     }
+    
+
+
 
 }
