@@ -12,7 +12,7 @@ namespace GXPEngine
             x = xOffest;
             y = yOffset;
 
-            alpha = 0;
+            alpha = 0f;
             //SetScaleXY(0.1f, 0.1f);
         }
     }

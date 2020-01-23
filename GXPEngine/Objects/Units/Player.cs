@@ -18,12 +18,21 @@ public enum PlayerState
 public class Player : Unit
 {
     const int MAX_HEALTH = 3;
-    int LifesLeft = 3;
+    int lifesLeft;
+    int LifesLeft {
+        get { return lifesLeft; }
+        set {
+            lifesLeft = value;
+
+
+        }
+
+    }
+
     Vector2 spawnPosition;
 
-
-    float _maxSpeed = 5;
-    float _jumpSpeed = -12;
+    private float _maxSpeed = 5;
+    private float _jumpSpeed = -12;
     public float MaxSpeed
     {
         get { return _maxSpeed; }
@@ -107,26 +116,33 @@ public class Player : Unit
         updatePlayerPosition();
         handleLevelTransition();
         timerCountDown();
+
+        if (Input.GetKeyUp(Key.R)) {
+            RestartGame();
+        }
     }
 
     void setupPlayer( float x, float y) {
         spawnPosition.x = x;
         spawnPosition.y = y;
-        LifesLeft = MAX_HEALTH;
+        lifesLeft = MAX_HEALTH;
         _time = START_TIME;
         _score = START_SCORE;
 
     }
-
-    void resetPlayer() {
+    void RestartGame() {
+        if (LevelManager.Instance.ActiveLevelIndex != 0) {
+            Console.WriteLine("GG");
+            LevelManager.Instance.ActiveLevelIndex = 0;
+            LevelManager.Instance.OpenLevel(0);
+        }
+        
         SetXY(spawnPosition.x, spawnPosition.y);
-        LifesLeft = MAX_HEALTH;
+        lifesLeft = MAX_HEALTH;
         _time = START_TIME;
         _score = START_SCORE;
-        LevelManager.Instance.OpenLevel("Level1.tmx");
-        LevelManager.Instance.ActiveLevelIndex = 0;
+        
     }
-
     void timerCountDown() {
         Timer -= Time.deltaTime;
     }
@@ -142,7 +158,6 @@ public class Player : Unit
             }
         }
     }
-
     void handleLevelTransition() {
         if(CurrentState != PlayerState.OnRope) { 
             if (x < 10) {
@@ -154,7 +169,6 @@ public class Player : Unit
             }
         }
     }
-
     private void handleStates()
     {
         switch (currentState)
@@ -388,11 +402,13 @@ public class Player : Unit
 
     public void Kill()
     {
-        LifesLeft--;
+        lifesLeft--;
+        UpdateHealthUI();
 
-        if (LifesLeft <= 0)
+        if (lifesLeft <= 0)
         {
-            resetPlayer();
+            RestartGame();
+            UpdateHealthUI();
             return;
         }
 
@@ -402,14 +418,15 @@ public class Player : Unit
 
 
     /// <summary>
-    /// UI Methods
+    /// UI Method
     /// </summary>
-
-
-
     private void UpdateUI()
     {
         UICanvas.Instance.DrawScore(this.Score);
         UICanvas.Instance.DrawTimer(this.Timer);
+        
+    }
+    private void UpdateHealthUI() {
+        UICanvas.Instance.UpdateHealth(this.lifesLeft);
     }
 }

@@ -50,6 +50,7 @@ public class LevelManager:GameObject
 
     int activeLevelIndex = 0;
     public int ActiveLevelIndex {
+        get => activeLevelIndex;
         set => activeLevelIndex = value;
     }
     List<TiledLevel> levelsList = new List<TiledLevel>();
@@ -58,6 +59,7 @@ public class LevelManager:GameObject
     public LevelManager() {
         _instance = this;
         LoadLevel("Level1.tmx");
+        LoadLevel("Level3.tmx");
         LoadLevel("Level2.tmx");
 
         OpenLevel("Level1.tmx");

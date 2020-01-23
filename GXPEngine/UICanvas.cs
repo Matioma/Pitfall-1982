@@ -9,8 +9,12 @@ namespace GXPEngine
     {
         static UICanvas _instance;
 
+        AnimationSprite healthBarSpriteSheet;
+
         EasyDraw uiEasyDraw;
 
+
+        int _currentHP = 0;
         string  _scoreText= "";
         string _timerText ="";
 
@@ -28,6 +32,9 @@ namespace GXPEngine
 
         UICanvas()
         {
+            healthBarSpriteSheet = new AnimationSprite("HealthSpriteSheet.png", 1, 3);
+            healthBarSpriteSheet.SetXY(game.width - 250, 50);
+            AddChild(healthBarSpriteSheet);
             uiEasyDraw = new EasyDraw(150, 60);
             AddChild(uiEasyDraw);
         }
@@ -49,7 +56,11 @@ namespace GXPEngine
             _timerText = minutes + ":" + sec;
         }
 
-
-
+        public void UpdateHealth(int health)
+        {
+            _currentHP = health;
+            healthBarSpriteSheet.SetFrame(healthBarSpriteSheet.frameCount - health);
+           
+        }
     }
 }
