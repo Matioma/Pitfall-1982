@@ -73,6 +73,10 @@ public class Player : Unit
         set {
             if (value >= 0)
             {
+                if (value < _score) {
+                    MyGame.Instance.sounds["Damage"].Play();
+                    //game.
+                }
                 _score = value;
             }
             else {
@@ -132,7 +136,6 @@ public class Player : Unit
     }
     void RestartGame() {
         if (LevelManager.Instance.ActiveLevelIndex != 0) {
-            Console.WriteLine("GG");
             LevelManager.Instance.ActiveLevelIndex = 0;
             LevelManager.Instance.OpenLevel(0);
         }
@@ -141,7 +144,8 @@ public class Player : Unit
         lifesLeft = MAX_HEALTH;
         _time = START_TIME;
         _score = START_SCORE;
-        
+        UpdateHealthUI();
+
     }
     void timerCountDown() {
         Timer -= Time.deltaTime;
@@ -408,12 +412,12 @@ public class Player : Unit
         if (lifesLeft <= 0)
         {
             RestartGame();
-            UpdateHealthUI();
+           
             return;
         }
 
         SetXY(spawnPosition.x, spawnPosition.y);
-        MyGame.sounds["Death"].Play();
+        MyGame.Instance.sounds["Death"].Play();
     }
 
 
@@ -424,7 +428,6 @@ public class Player : Unit
     {
         UICanvas.Instance.DrawScore(this.Score);
         UICanvas.Instance.DrawTimer(this.Timer);
-        
     }
     private void UpdateHealthUI() {
         UICanvas.Instance.UpdateHealth(this.lifesLeft);

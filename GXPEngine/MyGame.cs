@@ -7,13 +7,14 @@ using GXPEngine.Units;
 
 public class MyGame : Game
 {
+    public static MyGame Instance;
 
     LevelManager levelManager;
-    public static Dictionary<string, Sound> sounds = new Dictionary<string, Sound>();
-
+    public Dictionary<string, Sound> sounds = new Dictionary<string, Sound>();
 
     public MyGame() : base(800, 600, false)     // Create a window that's 800x600 and NOT fullscreen
     {
+        Instance = this;
         levelManager = new LevelManager();
         AddChild(levelManager);
         LoadSounds();
@@ -23,7 +24,6 @@ public class MyGame : Game
     {
         
     }
-
 
 
     static void Main()                          // Main() is the first method that's called when the program is run
@@ -39,5 +39,8 @@ public class MyGame : Game
 
         sound = new Sound("Death.mp3", false);
         sounds.Add("Death", sound);
+
+        sound = new Sound("Damage.wav", false);
+        sounds.Add("Damage", sound);
     }
 }
